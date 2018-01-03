@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -55,22 +57,34 @@ namespace StandupRandomizer
         public void GetTeam()
         {
             Team = new ObservableCollection<TeamMember>();
+            
+            List<TeamMember> teamMembers = new List<TeamMember>();
+            TeamMember author = new TeamMember();
+            try
+            {
+                string usersEncoded = ConfigurationManager.AppSettings["Users"];
+                string usersDencoded = System.Net.WebUtility.HtmlDecode(usersEncoded);
+                string usersNoSlashes = usersDencoded.Replace(@"\", "");
+                teamMembers = JsonConvert.DeserializeObject<List<TeamMember>>(usersNoSlashes);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            List<TeamMember> teamMembers = new List<TeamMember>() {
-                new TeamMember() { FirstName = "Alan", LastName = "Zhang", Position = "Developer" },
-                new TeamMember() { FirstName = "Alberto", LastName = "Casas", Position = "Developer" },
-                new TeamMember() { FirstName = "Cole", LastName = "Collins", Position = "Developer" },
-                new TeamMember() { FirstName = "Josh", LastName = "Ray", Position = "Project Owner", Finished = true },
-                new TeamMember() { FirstName = "Kalen", LastName = "Gibbons", Position = "Developer" },
-                new TeamMember() { FirstName = "Marco", LastName = "Guzman", Position = "Developer" },
-                new TeamMember() { FirstName = "Preethi", LastName = "Varamballi", Position = "Business Analyst" },
-                new TeamMember() { FirstName = "Ruben", LastName = "Rivera", Position = "Developer" },
-                new TeamMember() { FirstName = "Stephen", LastName = "Wittenberg", Position = "Developer" },
-                new TeamMember() { FirstName = "Teresa", LastName = "Dolan", Position = "Business Analyst" }
-            }.OrderBy(a => Guid.NewGuid()).ToList();
+            try
+            {
+                string authorEncoded = ConfigurationManager.AppSettings["Author"];
+                string authorDencoded = System.Net.WebUtility.HtmlDecode(authorEncoded);
+                string authorNoSlashes = authorDencoded.Replace(@"\", "");
+                author = JsonConvert.DeserializeObject<TeamMember>(authorNoSlashes);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
-            teamMembers.Add(new TeamMember() { FirstName = "Patrick", LastName = "Fortunato", Position = "Scrum Master / Developer" });
-
+            teamMembers.Add(author);
             ObservableCollection<TeamMember> teamList = new ObservableCollection<TeamMember>();
 
             foreach (TeamMember teamMember in teamMembers)
