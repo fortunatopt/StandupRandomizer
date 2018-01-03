@@ -66,6 +66,7 @@ namespace StandupRandomizer
                 string usersDencoded = System.Net.WebUtility.HtmlDecode(usersEncoded);
                 string usersNoSlashes = usersDencoded.Replace(@"\", "");
                 teamMembers = JsonConvert.DeserializeObject<List<TeamMember>>(usersNoSlashes);
+                teamMembers = teamMembers.OrderBy(a => Guid.NewGuid()).ToList();
             }
             catch (Exception ex)
             {
