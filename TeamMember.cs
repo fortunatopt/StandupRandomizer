@@ -10,13 +10,18 @@ namespace StandupRandomizer
 {
     public class TeamMember
     {
-
+        private bool present;
+        public bool Present
+        {
+            get { return present; }
+            set { present = value; }
+        }
+        private bool finished;
         public bool Finished
         {
             get { return finished; }
             set { finished = value; }
         }
-        private bool finished;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Position { get; set; }

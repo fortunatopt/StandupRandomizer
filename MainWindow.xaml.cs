@@ -43,17 +43,6 @@ namespace StandupRandomizer
             MessageBox.Show("PropertyChanged!");
         }
 
-        //void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    //Get the sender observable collection
-        //    ObservableCollection<TeamMember> obsSender = sender as ObservableCollection<TeamMember>;
-        //    NotifyCollectionChangedAction action = e.Action;
-        //    //if (action == NotifyCollectionChangedAction.Add)
-        //    //    lblStatus.Content = "New person added";
-        //    //if (action == NotifyCollectionChangedAction.Remove)
-        //    //    lblStatus.Content = "Person deleted";
-        //}
-
         public void GetTeam()
         {
             Team = new ObservableCollection<TeamMember>();
@@ -89,7 +78,9 @@ namespace StandupRandomizer
             ObservableCollection<TeamMember> teamList = new ObservableCollection<TeamMember>();
 
             foreach (TeamMember teamMember in teamMembers)
+            {
                 teamList.Add(teamMember);
+            }
 
             Team = teamList;
 
